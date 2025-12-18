@@ -1,0 +1,162 @@
+# Implementation Plan
+
+- [x] 1. 项目初始化和基础设置
+  - [x] 1.1 创建 Vite + React + TypeScript 项目
+    - 使用 `npm create vite@latest` 创建项目
+    - 安装依赖：d3, fast-check, vitest
+    - 配置 TypeScript 严格模式
+    - _Requirements: 6.1, 6.2_
+  - [x] 1.2 创建项目目录结构
+    - 创建 `src/algorithms/`、`src/components/`、`src/hooks/`、`src/types/`、`src/utils/` 目录
+    - _Requirements: 6.3_
+
+- [x] 2. 核心类型定义
+  - [x] 2.1 定义算法和动画步骤类型
+    - 创建 `src/types/index.ts`
+    - 定义 AlgorithmType、AnimationStep、DPAnimationStep、CenterExpansionStep 等类型
+    - _Requirements: 8.1, 8.4_
+  - [x] 2.2 编写类型定义的属性测试
+    - **Property 11: 步骤序列化往返一致性**
+    - **Validates: Requirements 8.2, 8.3, 8.4**
+
+- [x] 3. 输入验证模块
+  - [x] 3.1 实现输入验证函数
+    - 创建 `src/utils/validation.ts`
+    - 实现 `validateInput(input: string): ValidationResult`
+    - 实现 `truncateInput(input: string, maxLength: number): string`
+    - _Requirements: 1.1, 1.3, 1.4_
+  - [x] 3.2 编写输入验证的属性测试
+    - **Property 1: 输入验证一致性**
+    - **Validates: Requirements 1.1, 1.3**
+  - [x] 3.3 编写输入截断的属性测试
+    - **Property 2: 输入截断正确性**
+    - **Validates: Requirements 1.4**
+
+- [x] 4. DP 算法实现
+  - [x] 4.1 实现 DP 算法核心逻辑
+    - 创建 `src/algorithms/dp.ts`
+    - 实现 `DPAlgorithmExecutor` 类
+    - 生成带有步骤信息的 `DPAnimationStep[]`
+    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6_
+  - [x] 4.2 编写 DP 表格尺寸属性测试
+    - **Property 4: DP 表格尺寸正确性**
+    - **Validates: Requirements 3.1**
+  - [x] 4.3 编写 DP 单元格状态一致性属性测试
+    - **Property 14: DP 单元格状态一致性**
+    - **Validates: Requirements 3.3**
+
+- [x] 5. 中心扩散算法实现
+  - [x] 5.1 实现中心扩散算法核心逻辑
+    - 创建 `src/algorithms/centerExpansion.ts`
+    - 实现 `CenterExpansionExecutor` 类
+    - 生成带有步骤信息的 `CenterExpansionStep[]`
+    - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7_
+  - [x] 5.2 编写中心扩散指针有效性属性测试
+    - **Property 13: 中心扩散指针有效性**
+    - **Validates: Requirements 4.2, 4.3**
+
+- [x] 6. 算法通用属性测试
+  - [x] 6.1 编写步骤描述完整性属性测试
+    - **Property 5: 步骤描述完整性**
+    - **Validates: Requirements 3.6, 4.7**
+  - [x] 6.2 编写最长回文更新单调性属性测试
+    - **Property 6: 最长回文更新单调性**
+    - **Validates: Requirements 3.5, 4.6**
+  - [x] 6.3 编写最终结果正确性属性测试
+    - **Property 9: 最终结果正确性**
+    - **Validates: Requirements 7.1, 7.3**
+  - [x] 6.4 编写多回文确定性属性测试
+    - **Property 10: 多回文确定性**
+    - **Validates: Requirements 7.4**
+  - [x] 6.5 编写步骤编号连续性属性测试
+    - **Property 12: 步骤编号连续性**
+    - **Validates: Requirements 8.1**
+
+- [x] 7. Checkpoint - 确保所有算法测试通过
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [x] 8. 动画控制器实现
+  - [x] 8.1 实现动画状态管理 Hook
+    - 创建 `src/hooks/useAnimationController.ts`
+    - 实现 play、pause、nextStep、prevStep、reset、goToStep、setSpeed 方法
+    - 实现状态订阅机制
+    - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8_
+  - [x] 8.2 编写步骤导航一致性属性测试
+    - **Property 7: 步骤导航一致性**
+    - **Validates: Requirements 5.4, 5.5, 5.6**
+  - [x] 8.3 编写播放速度范围约束属性测试
+    - **Property 8: 播放速度范围约束**
+    - **Validates: Requirements 5.7**
+  - [x] 8.4 编写算法切换状态保持属性测试
+    - **Property 3: 算法切换状态保持**
+    - **Validates: Requirements 2.2, 2.3**
+
+- [x] 9. D3 渲染器实现
+  - [x] 9.1 实现 D3 渲染器基础框架
+    - 创建 `src/utils/d3Renderer.ts`
+    - 实现 initialize、clear、resize 方法
+    - 实现 renderStringDisplay 方法
+    - _Requirements: 3.4, 4.1_
+  - [x] 9.2 实现 DP 表格渲染
+    - 实现 renderDPTable 方法
+    - 支持单元格高亮和颜色标识
+    - _Requirements: 3.1, 3.2, 3.3_
+  - [x] 9.3 实现中心扩散渲染
+    - 实现 renderCenterExpansion 方法
+    - 支持中心标记、指针显示、字符高亮
+    - _Requirements: 4.2, 4.3, 4.4, 4.5_
+
+- [x] 10. React UI 组件实现
+  - [x] 10.1 实现输入面板组件
+    - 创建 `src/components/InputPanel.tsx`
+    - 实现输入框、提交按钮、错误提示
+    - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
+  - [x] 10.2 实现算法选择器组件
+    - 创建 `src/components/AlgorithmSelector.tsx`
+    - 实现 DP 和中心扩散两个选项
+    - _Requirements: 2.1, 2.2, 2.3, 2.4_
+  - [x] 10.3 实现播放控制器组件
+    - 创建 `src/components/PlaybackController.tsx`
+    - 实现播放、暂停、步进、重置按钮
+    - 实现速度滑块和进度显示
+    - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8_
+  - [x] 10.4 实现可视化画布组件
+    - 创建 `src/components/VisualizationCanvas.tsx`
+    - 集成 D3 渲染器
+    - 实现响应式尺寸调整
+    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 4.1, 4.2, 4.3, 4.4, 4.5, 6.4_
+  - [x] 10.5 实现结果面板组件
+    - 创建 `src/components/ResultPanel.tsx`
+    - 显示最长回文结果和步骤统计
+    - _Requirements: 7.1, 7.2, 7.3, 7.4_
+  - [x] 10.6 实现步骤说明组件
+    - 创建 `src/components/StepDescription.tsx`
+    - 显示当前步骤的文字说明
+    - _Requirements: 3.6, 4.7_
+
+- [x] 11. 主应用组装
+  - [x] 11.1 实现主 App 组件
+    - 更新 `src/App.tsx`
+    - 组装所有子组件
+    - 实现单屏幕响应式布局
+    - _Requirements: 6.1, 6.2, 6.3_
+  - [x] 11.2 添加全局样式
+    - 创建 `src/App.css`
+    - 实现 Grid/Flexbox 布局
+    - 添加动画过渡效果
+    - _Requirements: 6.1, 6.2, 6.3_
+
+- [x] 12. Checkpoint - 确保所有测试通过
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [x] 13. 最终集成和优化
+  - [x] 13.1 集成测试和调试
+    - 测试完整用户流程
+    - 修复发现的问题
+    - _Requirements: All_
+  - [x] 13.2 编写端到端集成测试
+    - 测试输入 -> 算法执行 -> 动画播放 -> 结果显示完整流程
+    - _Requirements: All_
+
+- [x] 14. Final Checkpoint - 确保所有测试通过
+  - Ensure all tests pass, ask the user if questions arise.
