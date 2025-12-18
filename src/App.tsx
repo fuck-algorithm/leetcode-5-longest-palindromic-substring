@@ -229,13 +229,25 @@ function AlgorithmPage() {
       {/* 底部控制栏 */}
       <footer className="controls">
         <button className="ctrl-btn" onClick={reset}>重置</button>
-        <button className="ctrl-btn" onClick={prevStep} disabled={state.currentStepIndex <= 0}>上一步</button>
+        <button className="ctrl-btn" onClick={prevStep} disabled={state.currentStepIndex <= 0}>
+          <span className="btn-text">上一步</span>
+          <kbd className="shortcut">←</kbd>
+        </button>
         {state.isPlaying ? (
-          <button className="ctrl-btn primary" onClick={pause}>暂停</button>
+          <button className="ctrl-btn primary" onClick={pause}>
+            <span className="btn-text">暂停</span>
+            <kbd className="shortcut">Space</kbd>
+          </button>
         ) : (
-          <button className="ctrl-btn primary" onClick={play} disabled={state.currentStepIndex >= state.steps.length - 1}>播放</button>
+          <button className="ctrl-btn primary" onClick={play} disabled={state.currentStepIndex >= state.steps.length - 1}>
+            <span className="btn-text">播放</span>
+            <kbd className="shortcut">Space</kbd>
+          </button>
         )}
-        <button className="ctrl-btn" onClick={nextStep} disabled={state.currentStepIndex >= state.steps.length - 1}>下一步</button>
+        <button className="ctrl-btn" onClick={nextStep} disabled={state.currentStepIndex >= state.steps.length - 1}>
+          <span className="btn-text">下一步</span>
+          <kbd className="shortcut">→</kbd>
+        </button>
         <div className="speed-control">
           <span>速度</span>
           <input type="range" min="0.5" max="3" step="0.5" value={state.playbackSpeed} onChange={(e) => setSpeed(parseFloat(e.target.value))} />
