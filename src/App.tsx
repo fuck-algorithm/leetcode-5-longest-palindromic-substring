@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useAnimationController } from './hooks/useAnimationController';
 import { AlgorithmType } from './types';
 import { DebugCodePanel } from './components/DebugCodePanel';
@@ -8,20 +8,21 @@ import './App.css';
 // 主应用组件（带路由）
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<AlgorithmPage />} />
         <Route path="/dp" element={<AlgorithmPage />} />
         <Route path="/center-expansion" element={<AlgorithmPage />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
 // 算法页面组件
 function AlgorithmPage() {
   const navigate = useNavigate();
-  const { pathname } = window.location;
+  const location = useLocation();
+  const pathname = location.pathname;
   
   // 根据 URL 确定算法类型，默认是 center-expansion
   const getAlgorithmFromPath = (): AlgorithmType => {
