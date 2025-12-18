@@ -71,47 +71,38 @@ function AlgorithmPage() {
           </a>
           <div className="input-group">
             <label className="input-label">测试字符串</label>
-            <div className="input-row">
-              <input
-                type="text"
-                className="input-field"
-                value={state.input}
-                onChange={(e) => handleInputSubmit(e.target.value)}
-                placeholder="输入要查找回文的字符串..."
-              />
-              <div className="input-actions">
-                <select 
-                  className="sample-select"
-                  value=""
-                  onChange={(e) => {
-                    if (e.target.value) handleInputSubmit(e.target.value);
-                  }}
+            <input
+              type="text"
+              className="input-field"
+              value={state.input}
+              onChange={(e) => handleInputSubmit(e.target.value)}
+              placeholder="输入字符串..."
+            />
+            <button 
+              className="random-btn"
+              onClick={() => {
+                const chars = 'abcdefghij';
+                const len = Math.floor(Math.random() * 6) + 4;
+                let str = '';
+                for (let i = 0; i < len; i++) {
+                  str += chars[Math.floor(Math.random() * chars.length)];
+                }
+                handleInputSubmit(str);
+              }}
+              title="随机生成"
+            >
+              🎲 随机
+            </button>
+            <div className="sample-tags">
+              {['babad', 'cbbd', 'racecar', 'abcba', 'noon'].map(sample => (
+                <span 
+                  key={sample}
+                  className={`sample-tag ${state.input === sample ? 'active' : ''}`}
+                  onClick={() => handleInputSubmit(sample)}
                 >
-                  <option value="">样例</option>
-                  <option value="babad">babad</option>
-                  <option value="cbbd">cbbd</option>
-                  <option value="racecar">racecar</option>
-                  <option value="aacabdkacaa">aacabdkacaa</option>
-                  <option value="abcba">abcba</option>
-                  <option value="noon">noon</option>
-                  <option value="level">level</option>
-                </select>
-                <button 
-                  className="random-btn"
-                  onClick={() => {
-                    const chars = 'abcdefghij';
-                    const len = Math.floor(Math.random() * 6) + 4; // 4-9 长度
-                    let str = '';
-                    for (let i = 0; i < len; i++) {
-                      str += chars[Math.floor(Math.random() * chars.length)];
-                    }
-                    handleInputSubmit(str);
-                  }}
-                  title="随机生成字符串"
-                >
-                  🎲
-                </button>
-              </div>
+                  {sample}
+                </span>
+              ))}
             </div>
           </div>
           <div className="algo-buttons">
