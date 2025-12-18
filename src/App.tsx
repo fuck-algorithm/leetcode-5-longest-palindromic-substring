@@ -42,6 +42,38 @@ function AlgorithmPage() {
     }
   }, [pathname]);
 
+  // 键盘快捷键
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // 如果焦点在输入框内，不处理快捷键
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+      
+      switch (e.key) {
+        case 'ArrowLeft':
+          e.preventDefault();
+          prevStep();
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          nextStep();
+          break;
+        case ' ':
+          e.preventDefault();
+          if (state.isPlaying) {
+            pause();
+          } else {
+            play();
+          }
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [state.isPlaying, play, pause, nextStep, prevStep]);
+
   const handleInputSubmit = (value: string) => initialize(value, state.algorithm);
   
   const handleAlgorithmChange = (algo: AlgorithmType) => {
